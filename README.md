@@ -1,5 +1,28 @@
+<br/>
+<p style="background:blue; padding:20px; display:flex; justify-content: center;  margin-top:10px">
+
+<img heigth="200px" width="550px" center src="https://github.com/netpaymx/NetPaySDKPod/blob/master/img/netpay-logo-white.png?raw=true"/>
+<br>
+
+</p>
+
+<br>
+<h3>
+Resumen
+</h3>
+
+<ol>
+    <li>Requerimientos</li>
+    <li>Integración de Pod</li>
+    <li>Construcción de formulario de cobro.</li>
+</ol>
+
 **Integración de el SDK de NetPay IOS a tu aplicación de Custom Checkout por medio del gestor de dependencias Cocoapods.**
-<br/><br/>
+
+<br>
+
+<img src="https://img.shields.io/static/v1?label=Swift&message=5.0,5.1&color=orange"/>   <img src="https://img.shields.io/static/v1?label=Plataforms&message=IOS&color=yellowgreen"/>  <img src="https://img.shields.io/static/v1?label=Pod&message=v0.0.2&color=blue"/>  <img src="https://img.shields.io/static/v1?label=Swift Package Manager&message=Compatible&color=orange"/> <img src="https://img.shields.io/static/v1?label=IOS Minimo &message=8.0&color=critical"/>
+
 <h2>1.Requerimientos</h2>
 <ul>
     <li>Netpay API public key.</li>
@@ -18,7 +41,7 @@ source 'https://github.com/CocoaPods/Specs.git'
     
     target 'target' do
         use_frameworks!
-        pod 'NetPaySDK', '~> version'
+        pod 'NetPaySDK', '~> 0.0.2'
     end
 ```
 
@@ -34,24 +57,6 @@ source 'https://github.com/CocoaPods/Specs.git'
  private let publicKey = "pk_netpay_kSjXddOJMPuxfqEsEICyIOKUs"
  private let testMode = true
 ```
-
-<ul>
-    <li>Inicializar al cliente</li>
-</ul>
-
-```swift
-  override func viewDidLoad() {
-            super.viewDidLoad()
-    
-            let client = Client(publicKey: publicKey, testMode: testMode)
-            client.capabilityDataWithCompletionHandler { (result) in
-                if case .success(let capability) = result {
-                    self.capability = capability
-                }
-            }
-     }
-```
-
 <ul>
     <li>Asignar el identificador</li>
 </ul>
@@ -82,6 +87,10 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                 creditCardFormController.testMode = testMode
                 creditCardFormController.handleErrors = true
                 creditCardFormController.delegate = self
+				
+		segue.destination.modalPresentationStyle = .custom
+            	segue.destination.transitioningDelegate = HalfModalTransitioningDelegate(viewController: self, presentingViewController: segue.destination)
+				
             } else if segue.identifier == "ShowCreditForm",
                 let creditCardFormController = segue.destination as? CreditCardFormViewController {
                 creditCardFormController.publicKey = publicKey
@@ -166,4 +175,18 @@ extension ViewController: CreditCardFormViewControllerDelegate {
             })
         }
     }
+```
+
+<ul>
+    <li>Cambio de texto del boton</li>
+</ul>
+
+Se crea una variable con  la instancia del objeto StyleFormBuilder y se agrega en la creacion del formualrio ya sea en modal o push.
+
+```swift
+let styleForm = StyleFormBuilder()
+                    .addTextButton(text: "Texto Botton Pagar")
+                    .build()
+                
+creditCardFormController.styleForm = styleForm
 ```
