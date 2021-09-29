@@ -21,7 +21,7 @@ Resumen
 
 <br>
 
-<img src="https://img.shields.io/static/v1?label=Swift&message=5.0,5.1&color=orange"/>   <img src="https://img.shields.io/static/v1?label=Plataforms&message=IOS&color=yellowgreen"/>  <img src="https://img.shields.io/static/v1?label=Pod&message=v0.0.2&color=blue"/>  <img src="https://img.shields.io/static/v1?label=Swift Package Manager&message=Compatible&color=orange"/> <img src="https://img.shields.io/static/v1?label=IOS Minimo &message=8.0&color=critical"/>
+<img src="https://img.shields.io/static/v1?label=Swift&message=5.0,5.1&color=orange"/>   <img src="https://img.shields.io/static/v1?label=Plataforms&message=IOS&color=yellowgreen"/>  <img src="https://img.shields.io/static/v1?label=Pod&message=v1.0.0&color=blue"/>  <img src="https://img.shields.io/static/v1?label=Swift Package Manager&message=Compatible&color=orange"/> <img src="https://img.shields.io/static/v1?label=IOS Minimo &message=8.0&color=critical"/>
 
 <h2>1.Requerimientos</h2>
 <ul>
@@ -41,7 +41,7 @@ source 'https://github.com/CocoaPods/Specs.git'
     
     target 'target' do
         use_frameworks!
-        pod 'NetPaySDK', '~> 0.0.2'
+        pod 'NetPaySDK', '~> 1.0.0'
     end
 ```
 
