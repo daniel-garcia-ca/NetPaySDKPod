@@ -21,7 +21,7 @@ Resumen
 
 <br>
 
-<img src="https://img.shields.io/static/v1?label=Swift&message=5.0,5.1&color=orange"/>   <img src="https://img.shields.io/static/v1?label=Plataforms&message=IOS&color=yellowgreen"/>  <img src="https://img.shields.io/static/v1?label=Pod&message=v1.0.0&color=blue"/>  <img src="https://img.shields.io/static/v1?label=Swift Package Manager&message=Compatible&color=orange"/> <img src="https://img.shields.io/static/v1?label=IOS Minimo &message=8.0&color=critical"/>
+<img src="https://img.shields.io/static/v1?label=Swift&message=5.0,5.1&color=orange"/>   <img src="https://img.shields.io/static/v1?label=Plataforms&message=IOS&color=yellowgreen"/>  <img src="https://img.shields.io/static/v1?label=Pod&message=v1.0.1&color=blue"/>  <img src="https://img.shields.io/static/v1?label=Swift Package Manager&message=Compatible&color=orange"/> <img src="https://img.shields.io/static/v1?label=IOS Minimo &message=8.0&color=critical"/>
 
 <h2>1.Requerimientos</h2>
 <ul>
@@ -41,7 +41,7 @@ source 'https://github.com/CocoaPods/Specs.git'
     
     target 'target' do
         use_frameworks!
-        pod 'NetPaySDK', '~> 1.0.0'
+        pod 'NetPaySDK', '~> 1.0.1'
     end
 ```
 
@@ -49,6 +49,15 @@ source 'https://github.com/CocoaPods/Specs.git'
 <p>NetPay iOS SDK proporciona formularios de interfaz de usuario fáciles de usar tanto para tokenizar una tarjeta de crédito como para crear una fuente de pago que se pueda integrar fácilmente en su aplicación.</p>
 <h3>3.1 Uso de formulario de tarjeta.</h3>
 <p>Para usar el controlador en su aplicación, modifique su controlador de vista con las siguientes adiciones:</p>
+<ul>
+	<li>Importar libreria netpay</li>
+</ul>
+
+```swift
+ import UIKit
+ import NetPaySDK
+```
+
 <ul>
     <li>Asignar llave pública (public key)</li>
 </ul>
@@ -77,6 +86,8 @@ override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?
 </ul>
 
 ```swift
+var halfModalTransitioningDelegate: HalfModalTransitioningDelegate?
+
 override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
             super.prepare(for: segue, sender: sender)
     
@@ -88,8 +99,10 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
                 creditCardFormController.handleErrors = true
                 creditCardFormController.delegate = self
 				
-		segue.destination.modalPresentationStyle = .custom
-            	segue.destination.transitioningDelegate = HalfModalTransitioningDelegate(viewController: self, presentingViewController: segue.destination)
+		self.halfModalTransitioningDelegate = HalfModalTransitioningDelegate(viewController: self, presentingViewController: segue.destination)
+            
+            	segue.destination.modalPresentationStyle = .custom
+            	segue.destination.transitioningDelegate = self.halfModalTransitioningDelegate
 				
             } else if segue.identifier == "ShowCreditForm",
                 let creditCardFormController = segue.destination as? CreditCardFormViewController {
@@ -106,9 +119,6 @@ override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 </ul>
 
 ```swift
-Public
-    import UIKit
-    import NetPaySDK
         @IBAction func showModalCreditCardForm(_ sender: Any) {
             guard currentCodePathMode == .code else {
                 return
@@ -126,8 +136,6 @@ Public
 </ul>
 
 ```swift
- import UIKit
-    import NetPaySDK
         @IBAction func showCreditCardForm(_ sender: UIButton) {
             guard currentCodePathMode == .code else {
                 return
